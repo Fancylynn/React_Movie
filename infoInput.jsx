@@ -10,13 +10,9 @@ var displayItem = React.createClass({
     render: function() {
         return (
             <div>
-                <tr>
-                    <td>{this.props.movie.title}</td>
-                    <td>{this.props.movie.yearOfRelease}</td>
-                    <td>{this.props.movie.director}</td>
-                    <td>{this.props.movie.poster}</td>
-                </tr>
+                <p>{this.props.movie.title}</p>
             </div>
+            
         )
     },
 });
@@ -54,6 +50,8 @@ var Application = React.createClass ({
     updateInfo: function(e) {
         var movies = this.props.movies;
         var movie = {};
+        movie.key = id + 1;
+        id = id + 1;
         movie.title = document.getElementById("title").value;
         movie.yearOfRelease = document.getElementById("yearOfRelease").value;
         movie.director = document.getElementById("director").value;
@@ -100,21 +98,14 @@ var Application = React.createClass ({
                         <button onClick={this.dataInput}>Update my favorite movie</button> 
                         <button onClick={this.dataRetrieve}>My movie list</button> 
                     </nav>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Year of Release</th>
-                                <th>Director</th>
-                                <th>Poster</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.movies.map(function(movie) {
-                                return <displayItem movie={movie} />
-                            }.bind(this))}
-                        </tbody>
-                    </table>
+                    
+                    <div>
+                        {this.state.movies.map(function(movie) {
+                        return <displayItem movie={movie} key={movie.key}/>
+                    }.bind(this))}
+                    </div>
+                    
+
                 </div>    
             )}
         
@@ -127,5 +118,7 @@ var Application = React.createClass ({
 });
 
 var movies = JSON.parse(localStorage.getItem('movies')) || [];
+
+var id = 0;
 
 ReactDOM.render(<Application movies={movies}/>, document.getElementById('container'));
