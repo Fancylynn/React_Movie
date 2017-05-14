@@ -24,12 +24,12 @@ var displayItem = React.createClass({
 var Application = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
-        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
-                title: React.PropTypes.string,
-                yearOfRelease: React.PropTypes.number,
-                director: React.PropTypes.string,
-                poster: React.PropTypes.string,
-                }))
+//        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
+//                title: React.PropTypes.string,
+//                yearOfRelease: React.PropTypes.number,
+//                director: React.PropTypes.string,
+//                poster: React.PropTypes.string,
+//                }))
     },
     
     getInitialState: function () {
@@ -59,11 +59,11 @@ var Application = React.createClass ({
         movie.director = document.getElementById("director").value;
         movie.poster = document.getElementById("poster").value;
         //console.log(movie);
-        movies.push(React.findDOMNode(movie).value);
-        localStorage.setItem("movie_list", JSON.stringify(movie));
-        console.log(JSON.parse(localStorage.getItem('movie_list')));
+        movies.push(movie);
+        localStorage.setItem("movies", JSON.stringify(movies));
+        console.log(JSON.parse(localStorage.getItem('movies')));
         //alert("perfect" + localStorage.length);
-        this.setState({ movies:movies })
+        this.setState({ movies:movies });
     },
     
     render: function () {
@@ -128,4 +128,4 @@ var Application = React.createClass ({
 
 var movies = JSON.parse(localStorage.getItem('movies')) || [];
 
-ReactDOM.render(<Application />, document.getElementById('container'));
+ReactDOM.render(<Application movies={movies}/>, document.getElementById('container'));
