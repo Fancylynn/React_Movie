@@ -6,26 +6,27 @@ function Header(props) {
     );
 }
 
-var displayItem = React.createClass({
-    render: function() {
-        return (
-            <div>
-                <p>{this.props.movie.title}</p>
-            </div>
-            
-        )
-    },
-});
+function DisplayItem (props) {
+    return (
+        <tr>
+            <td>{props.movie.title}</td>
+            <td>{props.movie.yearOfRelease}</td>
+            <td>{props.movie.director}</td>
+            <td>{props.movie.poster}</td>
+        </tr>
+    );
+}
 
 var Application = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
-//        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
-//                title: React.PropTypes.string,
-//                yearOfRelease: React.PropTypes.number,
-//                director: React.PropTypes.string,
-//                poster: React.PropTypes.string,
-//                }))
+        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
+                title: React.PropTypes.string,
+                yearOfRelease: React.PropTypes.number,
+                director: React.PropTypes.string,
+                poster: React.PropTypes.string,
+                key: React.PropTypes.number,
+                }))
     },
     
     getInitialState: function () {
@@ -53,7 +54,7 @@ var Application = React.createClass ({
         movie.key = id + 1;
         id = id + 1;
         movie.title = document.getElementById("title").value;
-        movie.yearOfRelease = document.getElementById("yearOfRelease").value;
+        movie.yearOfRelease = parseInt(document.getElementById("yearOfRelease").value);
         movie.director = document.getElementById("director").value;
         movie.poster = document.getElementById("poster").value;
         //console.log(movie);
@@ -99,14 +100,22 @@ var Application = React.createClass ({
                         <button onClick={this.dataRetrieve}>My movie list</button> 
                     </nav>
                     
-                    <div>
-                        {this.state.movies.map(function(movie) {
-                        return <displayItem movie={movie} key={movie.key}/>
-                    }.bind(this))}
-                    </div>
-                    
-
-                </div>    
+                    <table>
+                         <thead>
+                             <tr>
+                                 <th>Title</th>
+                                 <th>Year of Release</th>
+                                 <th>Director</th>
+                                 <th>Poster</th>
+                             </tr>
+                         </thead>                    
+                        <tbody>
+                            {this.state.movies.map(function(movie) {
+                            return (<DisplayItem movie={movie} key={movie.key} />)
+                        }.bind(this))}
+                        </tbody>
+                    </table>
+                </div>         
             )}
         
         return (
