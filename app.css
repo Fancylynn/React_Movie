@@ -1,7 +1,31 @@
+body {
+  background: #d5d5d5; 
+  font-family: arial;
+  color: black;
+  
+}
+
+.header {
+    text-transform: uppercase;
+    text-align: center;
+}
+
 fieldset {
     width:300px;
 }
 
 table, table tr th {
     border: 1px solid black;
+}
+
+table {
+    margin:0 auto;
+}
+
+.input {
+    text-align: center;
+}
+
+.retrieve {
+    
 }

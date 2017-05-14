@@ -1,24 +1,45 @@
 function Header(props) {
     return(
-        <div>
+        <div className="header">
             <h1>My Favorite Movie</h1>
         </div>
     );
 }
 
+var displayItem = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <tr>
+                    <td>{this.props.movie.title}</td>
+                    <td>{this.props.movie.yearOfRelease}</td>
+                    <td>{this.props.movie.director}</td>
+                    <td>{this.props.movie.poster}</td>
+                </tr>
+            </div>
+        )
+    },
+});
 
 var Application = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
+        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
+                title: React.PropTypes.string,
+                yearOfRelease: React.PropTypes.number,
+                director: React.PropTypes.string,
+                poster: React.PropTypes.string,
+                }))
     },
     
     getInitialState: function () {
         return {
             display: "inputForm",
+            movies: this.props.movies,
         }
     },
     
-     dataInput: function(e) {
+    dataInput: function(e) {
         this.setState({
             display: "inputForm",    
         })
@@ -31,15 +52,18 @@ var Application = React.createClass ({
     },
     
     updateInfo: function(e) {
+        var movies = this.props.movies;
         var movie = {};
-            movie.title = document.getElementById("title").value;
-            movie.yearOfRelease = document.getElementById("yearOfRelease").value;
-            movie.director = document.getElementById("director").value;
-            movie.poster = document.getElementById("poster").value;
-            //console.log(movie);
-            localStorage.setItem(localStorage.length + 1, JSON.stringify(movie));
-            console.log(JSON.parse(localStorage.getItem('movie')));
-            //alert("perfect" + localStorage.length);   
+        movie.title = document.getElementById("title").value;
+        movie.yearOfRelease = document.getElementById("yearOfRelease").value;
+        movie.director = document.getElementById("director").value;
+        movie.poster = document.getElementById("poster").value;
+        //console.log(movie);
+        movies.push(React.findDOMNode(movie).value);
+        localStorage.setItem("movie_list", JSON.stringify(movie));
+        console.log(JSON.parse(localStorage.getItem('movie_list')));
+        //alert("perfect" + localStorage.length);
+        this.setState({ movies:movies })
     },
     
     render: function () {
@@ -49,8 +73,8 @@ var Application = React.createClass ({
                 <div>
                     <Header />
                     <nav>
-                        <button onClick={this.dataInput}>Update my favorite movie</button> 
-                        <button onClick={this.dataRetrieve}>My movie list</button> 
+                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
+                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
                     </nav>
                     <fieldset>
                         <legend>Enter basic information</legend>
@@ -85,7 +109,10 @@ var Application = React.createClass ({
                                 <th>Poster</th>
                             </tr>
                         </thead>
-                        <tbody id="movie_list">
+                        <tbody>
+                            {this.state.movies.map(function(movie) {
+                                return <displayItem movie={movie} />
+                            }.bind(this))}
                         </tbody>
                     </table>
                 </div>    
@@ -99,5 +126,6 @@ var Application = React.createClass ({
         )}
 });
 
+var movies = JSON.parse(localStorage.getItem('movies')) || [];
 
 ReactDOM.render(<Application />, document.getElementById('container'));
