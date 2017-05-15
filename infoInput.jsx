@@ -33,6 +33,7 @@ var Application = React.createClass ({
         return {
             display: "inputForm",
             movies: this.props.movies,
+            id: localStorage.getItem('movies') ? localStorage.length : 0, 
         }
     },
     
@@ -51,8 +52,7 @@ var Application = React.createClass ({
     updateInfo: function(e) {
         var movies = this.props.movies;
         var movie = {};
-        movie.key = id + 1;
-        id = id + 1;
+        movie.key = this.state.id + 1;
         movie.title = document.getElementById("title").value;
         movie.yearOfRelease = parseInt(document.getElementById("yearOfRelease").value);
         movie.director = document.getElementById("director").value;
@@ -63,6 +63,7 @@ var Application = React.createClass ({
         console.log(JSON.parse(localStorage.getItem('movies')));
         //alert("perfect" + localStorage.length);
         this.setState({ movies:movies });
+        this.setState({ id: id + 1});
     },
     
     render: function () {
@@ -71,10 +72,11 @@ var Application = React.createClass ({
             show = (
                 <div>
                     <Header />
-                    <nav>
+                    <nav className="navbar">
                         <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
                         <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
                     </nav>
+                    <form onSubmit={this.updateInfo}>
                     <fieldset>
                         <legend>Enter basic information</legend>
                         Movie Title <input type="text" id="title" name="title" size="100" maxlength="100" placeholder="Please input the name of the movie" required />
@@ -85,17 +87,17 @@ var Application = React.createClass ({
                         <br />
                         Poster Link <input type="url" id="poster" name="poster" />
                         <br />
-                        <button onClick={this.updateInfo}>Submit</button>
-                        <button>Reset</button>
+                        <input type="submit" value="Submit" className="button"/>
+                        <input type="reset" value="Reset" className="button"/>
                     </fieldset>
-
+                    </form>
                 </div>
             )} 
         else {
             show = (
                 <div>
                     <Header />
-                    <nav>
+                    <nav className="navbar">
                         <button onClick={this.dataInput}>Update my favorite movie</button> 
                         <button onClick={this.dataRetrieve}>My movie list</button> 
                     </nav>

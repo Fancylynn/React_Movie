@@ -2,7 +2,6 @@ body {
   background: #d5d5d5; 
   font-family: arial;
   color: black;
-  
 }
 
 .header {
@@ -10,8 +9,35 @@ body {
     text-align: center;
 }
 
+.navbar {
+    padding: 5px 10px;
+    text-align: center;
+    align-items: center;
+    
+}
+
 fieldset {
+    padding: 15px 10px;
     width:300px;
+    margin:0px auto;
+    font-family: cursive;
+    
+}
+
+legend {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+button, .button {
+    margin-left: 20px;
+    width: auto;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    background-color: burlywood;
+    cursor:pointer;
+    
 }
 
 table, table tr th {
