@@ -19,7 +19,12 @@ function DisplayItem (props) {
 
 var Application = React.createClass ({
     propTypes: {
-        display: React.PropTypes.string,
+//        display: React.PropTypes.string,
+//        id: React.PropTypes.number,
+//        title: React.PropTypes.string,
+//        year: React.PropTypes.string,
+//        director: React.PropTypes.string,
+//        poster: React.PropTypes.string,
         movies: React.PropTypes.arrayOf(React.PropTypes.shape({
                 title: React.PropTypes.string,
                 yearOfRelease: React.PropTypes.number,
@@ -33,7 +38,11 @@ var Application = React.createClass ({
         return {
             display: "inputForm",
             movies: this.props.movies,
-            id: localStorage.getItem('movies') ? localStorage.length : 0, 
+            id: this.props.movies.length,
+            title: "",
+            year: "",
+            director: "",
+            poster: "",
         }
     },
     
@@ -49,21 +58,40 @@ var Application = React.createClass ({
         })
     },
     
+    onTitleChange: function(e) {
+        this.setState({title: e.target.value})
+    },
+    
+    onYearChange: function(e) {
+        this.setState({year: e.target.value})
+    },
+    
+    onDirectorChange: function(e) {
+        this.setState({director: e.target.value})
+    },
+    
+    onPosterChange: function(e) {
+        this.setState({poster: e.target.value})
+    },
+    
     updateInfo: function(e) {
+        e.preventDefault();
         var movies = this.props.movies;
         var movie = {};
         movie.key = this.state.id + 1;
-        movie.title = document.getElementById("title").value;
-        movie.yearOfRelease = parseInt(document.getElementById("yearOfRelease").value);
-        movie.director = document.getElementById("director").value;
-        movie.poster = document.getElementById("poster").value;
+        movie.title = this.state.title;
+        movie.yearOfRelease = parseInt(this.state.year);
+        movie.director = this.state.director;
+        movie.poster = this.state.poster;
         //console.log(movie);
         movies.push(movie);
         localStorage.setItem("movies", JSON.stringify(movies));
         console.log(JSON.parse(localStorage.getItem('movies')));
         //alert("perfect" + localStorage.length);
         this.setState({ movies:movies });
-        this.setState({ id: id + 1});
+        this.setState({ id: this.state.id + 1});
+        this.setState({ title: "", year: "", director: "", poster: "" });
+        this.setState({ display: "dataRetrieve"});
     },
     
     render: function () {
@@ -79,13 +107,13 @@ var Application = React.createClass ({
                     <form onSubmit={this.updateInfo}>
                     <fieldset>
                         <legend>Enter basic information</legend>
-                        Movie Title <input type="text" id="title" name="title" size="100" maxlength="100" placeholder="Please input the name of the movie" required />
+                        Movie Title <input type="text" value={this.state.title} onChange={this.onTitleChange} size="100" maxlength="100" placeholder="Please input the name of the movie" required />
                         <br />
-                        Year of Release <input type="number" id="yearOfRelease" name="yearOfRelease" placeholder="When was the movie published" />
+                        Year of Release <input type="number" value={this.state.year} onChange={this.onYearChange} placeholder="When was the movie published" />
                         <br />
-                        Director <input type="text" id="director" name="director" size="100" maxlength="100" placeholder="Who directed the movie" />
+                        Director <input type="text" value={this.state.director} onChange={this.onDirectorChange} size="100" maxlength="100" placeholder="Who directed the movie" />
                         <br />
-                        Poster Link <input type="url" id="poster" name="poster" />
+                        Poster Link <input type="url" value={this.state.poster} onChange={this.onPosterChange} />
                         <br />
                         <input type="submit" value="Submit" className="button"/>
                         <input type="reset" value="Reset" className="button"/>
@@ -102,7 +130,7 @@ var Application = React.createClass ({
                         <button onClick={this.dataRetrieve}>My movie list</button> 
                     </nav>
                     
-                    <table>
+                    <table style={{ border: 1 }} >
                          <thead>
                              <tr>
                                  <th>Title</th>
@@ -129,7 +157,5 @@ var Application = React.createClass ({
 });
 
 var movies = JSON.parse(localStorage.getItem('movies')) || [];
-
-var id = 0;
 
 ReactDOM.render(<Application movies={movies}/>, document.getElementById('container'));
