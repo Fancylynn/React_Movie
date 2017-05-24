@@ -114,7 +114,7 @@ MovieList.propTypes = {
     movies: React.PropTypes.array.isRequired,
 }
 
-var Application = React.createClass ({
+var myMovies = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
         id: React.PropTypes.number,
@@ -166,9 +166,9 @@ var Application = React.createClass ({
     },
         
     render: function () {
-        let show;
+        let pageDisplay;
         if (this.state.display === "inputForm") {
-            show = (
+            pageDisplay = (
                 <div>
                     <Header />
                     <nav className="navbar">
@@ -179,7 +179,7 @@ var Application = React.createClass ({
                 </div>
             )} 
         else {
-            show = (
+            pageDisplay = (
                 <div>
                     <Header />
                     <nav className="navbar">
@@ -192,7 +192,7 @@ var Application = React.createClass ({
         
         return (
             <div>
-                { show }
+                { pageDisplay }
             </div>
             
         )}
