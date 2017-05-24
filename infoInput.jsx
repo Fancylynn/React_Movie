@@ -17,45 +17,32 @@ function DisplayItem (props) {
     );
 }
 
-var Application = React.createClass ({
+//function NavBar(props) { 
+//    return(
+//        <nav className="navbar">
+//            <button onClick={props.onInput}>Update my favorite movie</button> 
+//            <button onClick={props.onRetrieve}>My movie list</button> 
+//        </nav>
+//    )   
+//}
+//
+//NavBar.propTypes = {
+//    onInput: React.PropTypes.func,
+//    onRetrieve: React.PropTypes.func,    
+//}
+
+var AddMovieForm = React.createClass({
     propTypes: {
-//        display: React.PropTypes.string,
-//        id: React.PropTypes.number,
-//        title: React.PropTypes.string,
-//        year: React.PropTypes.string,
-//        director: React.PropTypes.string,
-//        poster: React.PropTypes.string,
-        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
-                title: React.PropTypes.string,
-                yearOfRelease: React.PropTypes.number,
-                director: React.PropTypes.string,
-                poster: React.PropTypes.string,
-                key: React.PropTypes.number,
-                }))
+        onAdd: React.PropTypes.func.isRequired,
     },
     
-    getInitialState: function () {
+    getInitialState: function() {
         return {
-            display: "inputForm",
-            movies: this.props.movies,
-            id: this.props.movies.length,
             title: "",
             year: "",
             director: "",
             poster: "",
         }
-    },
-    
-    dataInput: function(e) {
-        this.setState({
-            display: "inputForm",    
-        })
-    },
-    
-    dataRetrieve: function(e) {
-        this.setState({
-            display: "dataRetrieve",    
-        })
     },
     
     onTitleChange: function(e) {
@@ -74,37 +61,16 @@ var Application = React.createClass ({
         this.setState({poster: e.target.value})
     },
     
-    updateInfo: function(e) {
+    onSubmit: function(e) {
         e.preventDefault();
-        var movies = this.props.movies;
-        var movie = {};
-        movie.key = this.state.id + 1;
-        movie.title = this.state.title;
-        movie.yearOfRelease = parseInt(this.state.year);
-        movie.director = this.state.director;
-        movie.poster = this.state.poster;
-        //console.log(movie);
-        movies.push(movie);
-        localStorage.setItem("movies", JSON.stringify(movies));
-        console.log(JSON.parse(localStorage.getItem('movies')));
-        //alert("perfect" + localStorage.length);
-        this.setState({ movies:movies });
-        this.setState({ id: this.state.id + 1});
+        this.props.onAdd(this.state.title, this.state.year, this.state.director, this.state.poster);
         this.setState({ title: "", year: "", director: "", poster: "" });
-        this.setState({ display: "dataRetrieve"});
     },
     
-    render: function () {
-        let show;
-        if (this.state.display === "inputForm") {
-            show = (
-                <div>
-                    <Header />
-                    <nav className="navbar">
-                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
-                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
-                    </nav>
-                    <form onSubmit={this.updateInfo}>
+    render: function() {
+        return (
+            <div>
+                <form onSubmit={this.onSubmit}>
                     <fieldset>
                         <legend>Enter basic information</legend>
                         Movie Title <input type="text" value={this.state.title} onChange={this.onTitleChange} size="100" maxlength="100" placeholder="Please input the name of the movie" required />
@@ -119,6 +85,73 @@ var Application = React.createClass ({
                         <input type="reset" value="Reset" className="button"/>
                     </fieldset>
                     </form>
+            </div>
+        )
+    }
+});
+
+var Application = React.createClass ({
+    propTypes: {
+        display: React.PropTypes.string,
+        id: React.PropTypes.number,
+        title: React.PropTypes.string,
+        year: React.PropTypes.string,
+        director: React.PropTypes.string,
+        poster: React.PropTypes.string,
+        movies: React.PropTypes.arrayOf(React.PropTypes.shape({
+                title: React.PropTypes.string,
+                yearOfRelease: React.PropTypes.number,
+                director: React.PropTypes.string,
+                poster: React.PropTypes.string,
+                key: React.PropTypes.number,
+                }))
+    },
+    
+    getInitialState: function () {
+        return {
+            display: "inputForm",
+            movies: this.props.movies,
+            id: this.props.movies.length,
+        }
+    },
+    
+    dataInput: function() {
+        this.setState({
+            display: "inputForm",    
+        })
+    },
+    
+    dataRetrieve: function() {
+        this.setState({
+            display: "dataRetrieve",    
+        })
+    },
+    
+    onMovieAdd: function(title, year, director, poster) {
+        this.state.movies.push({
+            key: this.state.id + 1,
+            title: title,
+            yearOfRelease: parseInt(year),
+            director: director,
+            poster: poster,
+        });
+        localStorage.setItem("movies", JSON.stringify(movies));
+        this.setState(this.state);
+        this.setState({ id: this.state.id + 1});
+        this.setState({ display: "dataRetrieve"});
+    },
+        
+    render: function () {
+        let show;
+        if (this.state.display === "inputForm") {
+            show = (
+                <div>
+                    <Header />
+                    <nav className="navbar">
+                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
+                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
+                    </nav>
+                    <AddMovieForm onAdd={this.onMovieAdd} />
                 </div>
             )} 
         else {
@@ -126,10 +159,9 @@ var Application = React.createClass ({
                 <div>
                     <Header />
                     <nav className="navbar">
-                        <button onClick={this.dataInput}>Update my favorite movie</button> 
-                        <button onClick={this.dataRetrieve}>My movie list</button> 
+                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
+                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
                     </nav>
-                    
                     <table style={{ border: 1 }} >
                          <thead>
                              <tr>
