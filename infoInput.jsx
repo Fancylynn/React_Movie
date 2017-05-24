@@ -200,4 +200,4 @@ var myMovies = React.createClass ({
 
 var movies = JSON.parse(localStorage.getItem('movies')) || [];
 
-ReactDOM.render(<Application movies={movies}/>, document.getElementById('container'));
+ReactDOM.render(<myMovies movies={movies}/>, document.getElementById('container'));
