@@ -90,6 +90,30 @@ var AddMovieForm = React.createClass({
     }
 });
 
+function MovieList(props) {
+    return (
+        <table style={{ border: 1 }} >
+             <thead>
+                 <tr>
+                     <th>Title</th>
+                     <th>Year of Release</th>
+                     <th>Director</th>
+                     <th>Poster</th>
+                 </tr>
+             </thead>                    
+            <tbody>
+                { props.movies.map(function(movie) {
+                    return (<DisplayItem movie={movie} key={movie.key} />)
+                })}
+            </tbody>
+        </table>
+    );
+}
+
+MovieList.propTypes = {
+    movies: React.PropTypes.array.isRequired,
+}
+
 var Application = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
@@ -162,21 +186,7 @@ var Application = React.createClass ({
                         <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
                         <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
                     </nav>
-                    <table style={{ border: 1 }} >
-                         <thead>
-                             <tr>
-                                 <th>Title</th>
-                                 <th>Year of Release</th>
-                                 <th>Director</th>
-                                 <th>Poster</th>
-                             </tr>
-                         </thead>                    
-                        <tbody>
-                            {this.state.movies.map(function(movie) {
-                            return (<DisplayItem movie={movie} key={movie.key} />)
-                        }.bind(this))}
-                        </tbody>
-                    </table>
+                    <MovieList movies = {this.state.movies}/>
                 </div>         
             )}
         
