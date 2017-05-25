@@ -17,19 +17,19 @@ function DisplayItem (props) {
     );
 }
 
-//function NavBar(props) { 
-//    return(
-//        <nav className="navbar">
-//            <button onClick={props.onInput}>Update my favorite movie</button> 
-//            <button onClick={props.onRetrieve}>My movie list</button> 
-//        </nav>
-//    )   
-//}
-//
-//NavBar.propTypes = {
-//    onInput: React.PropTypes.func,
-//    onRetrieve: React.PropTypes.func,    
-//}
+function NavBar(props) { 
+    return(
+        <nav className="navbar">
+            <button onClick={props.onInput}>Update my favorite movie</button> 
+            <button onClick={props.onRetrieve}>My movie list</button> 
+        </nav>
+    );   
+}
+
+NavBar.propTypes = {
+    onInput: React.PropTypes.func,
+    onRetrieve: React.PropTypes.func,    
+}
 
 var AddMovieForm = React.createClass({
     propTypes: {
@@ -114,7 +114,7 @@ MovieList.propTypes = {
     movies: React.PropTypes.array.isRequired,
 }
 
-var myMovies = React.createClass ({
+var MyMovies = React.createClass ({
     propTypes: {
         display: React.PropTypes.string,
         id: React.PropTypes.number,
@@ -171,10 +171,7 @@ var myMovies = React.createClass ({
             pageDisplay = (
                 <div>
                     <Header />
-                    <nav className="navbar">
-                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
-                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
-                    </nav>
+                    <NavBar onInput={this.dataInput} onRetrieve={this.dataRetrieve} />
                     <AddMovieForm onAdd={this.onMovieAdd} />
                 </div>
             )} 
@@ -182,10 +179,7 @@ var myMovies = React.createClass ({
             pageDisplay = (
                 <div>
                     <Header />
-                    <nav className="navbar">
-                        <button onClick={this.dataInput} className="input">Update my favorite movie</button> 
-                        <button onClick={this.dataRetrieve} className="retrieve">My movie list</button> 
-                    </nav>
+                    <NavBar onInput={this.dataInput} onRetrieve={this.dataRetrieve} />
                     <MovieList movies = {this.state.movies}/>
                 </div>         
             )}
@@ -200,4 +194,4 @@ var myMovies = React.createClass ({
 
 var movies = JSON.parse(localStorage.getItem('movies')) || [];
 
-ReactDOM.render(<myMovies movies={movies}/>, document.getElementById('container'));
+ReactDOM.render(<MyMovies movies={movies}/>, document.getElementById('container'));
