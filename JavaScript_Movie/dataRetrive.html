@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Review my movie list</title>
+    </head>
+    <body>
+        <a href="favoriteMovieList.html">Add another movie</a>
+        <h3>My movie list</h3>
+        <table id="movie_list"  border="1">
+            <tr>
+                <th>Title</th>
+                <th>Year of Release</th>
+                <th>Director</th>
+                <th>Poster</th>
+            </tr>
+        </table>
+<!--        <div id="movie_list"></div>      -->
+    </body>
+    <script>
+        var display = document.getElementById("movie_list");
+        for (let i = 1; i < localStorage.length + 1; i++) {
+            var list = JSON.parse(localStorage.getItem(i));
+            var movie = document.createElement("tr");
+            movie.insertCell(0).innerHTML = list.title;
+            movie.insertCell(1).innerHTML = list.yearOfRelease;
+            movie.insertCell(2).innerHTML = list.director;
+            movie.insertCell(3).innerHTML = list.poster;
+            display.appendChild(movie);     
+        }
+        
+    </script>
+</html>
