@@ -22,7 +22,6 @@ class MyMovies extends Component {
         const onMovieAdd = bindActionCreators(MoviesActionCreators.onMovieAdd, dispatch);
         
         let pageDisplay;
-        console.log(display);
         if (display === "inputForm") {
             pageDisplay = (
                 <div>
