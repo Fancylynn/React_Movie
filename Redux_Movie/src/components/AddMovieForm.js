@@ -38,6 +38,10 @@ export default class AddMovieForm extends Component {
         this.setState({ title: "", year: "", director: "", poster: "" });
     };
 
+    onReset = (e) => {
+        this.setState({ title: "", year: "", director: "", poster: "" });
+    };
+
     render() {
         return (
             <div>
@@ -53,7 +57,7 @@ export default class AddMovieForm extends Component {
                         Poster Link <input type="url" value={this.state.poster} onChange={this.onPosterChange} />
                         <br />
                         <input type="submit" value="Submit" className="button"/>
-                        <input type="reset" value="Reset" className="button"/>
+                        <input type="reset" value="Reset" className="button" onClick={this.onReset}/>
                     </fieldset>
                     </form>
             </div>

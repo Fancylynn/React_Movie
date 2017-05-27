@@ -1,14 +1,9 @@
 import * as MoviesActionTypes from '../actiontypes/movies';
 
-export const dataInput = () => {
+export const changeDisplayMode = (mode) => {
 	return {
-		type: MoviesActionTypes.DATA_INPUT
-	};
-};
-
-export const dataRetrieve = () => {
-	return {
-		type: MoviesActionTypes.DATA_RETRIEVE
+		type: MoviesActionTypes.CHANGE_DISPLAY_MODE,
+		mode
 	};
 };
 

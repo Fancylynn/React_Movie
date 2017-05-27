@@ -10,24 +10,9 @@ const initialState = {
 
 export default function Movies(state = initialState, action) {
 	switch(action.type) {
-		case MoviesActionTypes.DATA_INPUT:
-			// return {
-			// 	movies: state.movies,
-			// 	id: state.id,
-			// 	display:"inputForm"
-			// };
+		case MoviesActionTypes.CHANGE_DISPLAY_MODE:
 			var newState = Object.assign({}, state);
-			newState.display = "inputForm";
-			return newState;
-
-		case MoviesActionTypes.DATA_RETRIEVE:
-			// return {
-			// 	movies: state.movies,
-			// 	id: state.id,
-			// 	display:"dataRetrieve"
-			// };
-			var newState = Object.assign({}, state);
-			newState.display = "dataRetrieve";
+			newState.display =action.mode;
 			return newState;
 
 		case MoviesActionTypes.ADD_MOVIE:

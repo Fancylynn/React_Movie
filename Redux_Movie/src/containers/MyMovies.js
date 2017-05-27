@@ -17,32 +17,25 @@ class MyMovies extends Component {
         
     render() {
         const { dispatch, movies, display } = this.props;
-        const dataInput = bindActionCreators(MoviesActionCreators.dataInput, dispatch);
-        const dataRetrieve = bindActionCreators(MoviesActionCreators.dataRetrieve, dispatch);
+        const changeDisplayMode = bindActionCreators(MoviesActionCreators.changeDisplayMode, dispatch);
         const onMovieAdd = bindActionCreators(MoviesActionCreators.onMovieAdd, dispatch);
         
         let pageDisplay;
-        if (display === "inputForm") {
+        if (display === "dataInput") {
             pageDisplay = (
-                <div>
-                    <Header />
-                    <NavBar onInput={dataInput} onRetrieve={dataRetrieve} />
-                    <AddMovieForm onAdd={onMovieAdd} />
-                </div>
+                <AddMovieForm onAdd={onMovieAdd} />
             )
         } 
         else {
             pageDisplay = (
-                <div>
-                    <Header />
-                    <NavBar onInput={dataInput} onRetrieve={dataRetrieve} />
-                    <MovieList movies = {movies}/>
-                </div>         
+                <MovieList movies = {movies}/>        
             )
         }
         
         return (
             <div>
+                <Header />
+                <NavBar changeDisplayMode={changeDisplayMode} />
                 { pageDisplay }
             </div>
             
